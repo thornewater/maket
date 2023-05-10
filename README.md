@@ -1,73 +1,37 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# UESR FLOW
+회원가입 => 로그인 => 게시물 생성 => 게시물 조회 => 게시물 수정 => 게시물 삭제   
+게시물 조회 => 회원가입 => 로그인 => 게시물 생성 => 게시물 수정 => 게시물 삭제
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# 회원가입
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+* name, password 누락시 에러처리
+* passwrod 유효성 검사 실시 -> 소문자,숫자,특수 문자 포함 8글자 이상 16글자 이하만 가능
+* 중복된 name존재시 에러처리
+* 회원가입 성공시 password를 bcrypt를 활용하여 암호화
 
-## Description
+# 로그인 
+* 로그인 성공시 JWT 토큰 전달
+* name및 password 미 일치시 에러처리
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# 게시물 생성
+* 토큰 미존재 혹은 다른 토큰일시 게시물 생성 불가
+* category, title, content 누락시 생성 불가
 
-## Installation
+# 게시물 조회
+* 전체게시물 조회 가능 
+* limit offset을 활용하여 페이지 게시물 갯수 정하여 조회 가능
+* 토큰존재시 유저가 작성한 본인의 게시물 조회 가능
+* 게시물 하나만 조회 가능
 
-```bash
-$ yarn install
-```
+# 게시물 수정
+* 유저 본인의 게시물만 수정할수 있도록 기능 구현
+* 게시물 수정기능 구현 
+* category, title, contenxt 하나만 보내도 받을수있도록 기능 구현
+* postId 는 클라이언트에게 반드시 받도록 구현
 
-## Running the app
+# 게시물 삭제 
+* 유저 본인의 게시물만 삭제할수 있도록 기능 구현
+* 게시물 삭제 기능 구현
 
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+# 포스트맨 문서화 
+https://documenter.getpostman.com/view/26387765/2s93ecuUio
