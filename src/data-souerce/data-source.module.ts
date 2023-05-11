@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Board } from 'src/board/board.entity';
 import { User } from 'src/user/entities/user.entity';
 
 @Module({
@@ -11,7 +12,7 @@ import { User } from 'src/user/entities/user.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User],
+      entities: [User, Board],
     }),
   ],
 })

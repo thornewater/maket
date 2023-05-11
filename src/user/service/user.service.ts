@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { CreateUserDto } from './dtos/create.user.dto';
-import { User } from './entities/user.entity';
+import { UserRepository } from '../repository/user.repository';
+import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { SignUpAndInUserDto } from '../dtos/signUpIn.user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async createUser(userData: CreateUserDto): Promise<void> {
+  async createUser(userData: SignUpAndInUserDto): Promise<void> {
     const saltRound = 10;
 
     const userInfo: User = await this.userRepository.getUserInfoByName(
