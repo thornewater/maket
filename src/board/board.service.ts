@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { BoardRepository } from './board.repository';
 import { CreateBoardDto } from './create.board.dto';
 import { Board } from './board.entity';
+import { UpdateBoardDto } from './update.board.dto';
 
 @Injectable()
 export class BoardService {
@@ -20,6 +21,27 @@ export class BoardService {
     return await this.boardRepository.findBoardByUserId(userId);
   }
 
+  async updateBoard(
+    updateBoardData: UpdateBoardDto,
+    userId: number,
+  ): Promise<void> {
+    const checkBoardId = await this.boardRepository.findOneBoard(
+      updateBoardData.id,
+    );
+    if (!checkBoardId) {
+      throw new HttpException('Board not valid', HttpStatus.FORBIDDEN);
+    }
+
+    const result = await this.boardRepository.updateBoard(
+      updateBoardData,
+      userId,
+    );
+
+    if (result.affected != 1) {
+      throw new HttpException('Check userId or boardId', HttpStatus.FORBIDDEN);
+    }
+  }
+
   async findOneBoard(boardId: number): Promise<Board> {
     const result = await this.boardRepository.findOneBoard(boardId);
 
@@ -31,10 +53,16 @@ export class BoardService {
   }
 
   async removeBoard(boardId: number, userId: number): Promise<void> {
+    const checkBoardId = await this.boardRepository.findOneBoard(boardId);
+
+    if (!checkBoardId) {
+      throw new HttpException('Board not valid', HttpStatus.FORBIDDEN);
+    }
+
     const result = await this.boardRepository.removeBoard(boardId, userId);
 
     if (result.affected != 1) {
-      throw new HttpException('Check userId or boardId', HttpStatus.FORBIDDEN);
+      throw new HttpException('Fail to Remove', HttpStatus.FORBIDDEN);
     }
   }
 }

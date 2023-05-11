@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -15,6 +16,7 @@ import { RequestWithUser } from 'src/interface/req.inteface';
 import { Board } from './board.entity';
 import { promises } from 'dns';
 import { User } from 'src/user/entities/user.entity';
+import { UpdateBoardDto } from './update.board.dto';
 
 @Controller('board')
 export class BoardController {
@@ -44,6 +46,17 @@ export class BoardController {
     const userId: number = req.user.id;
 
     return await this.boardService.findBoardByUserId(userId);
+  }
+  @Patch('update')
+  @UseGuards(AuthGuard)
+  async updateBoard(
+    @Body() updateBoardData: UpdateBoardDto,
+    @Req() req: RequestWithUser,
+  ) {
+    const userId: number = req.user.id;
+    await this.boardService.updateBoard(updateBoardData, userId);
+
+    return { message: 'update board success' };
   }
 
   @Get(':boardId')

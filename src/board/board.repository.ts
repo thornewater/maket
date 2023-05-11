@@ -1,8 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from './board.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreateBoardDto } from './create.board.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { UpdateBoardDto } from './update.board.dto';
 
 @Injectable()
 export class BoardRepository {
@@ -17,7 +18,7 @@ export class BoardRepository {
     }
   }
 
-  async findAllBoard() {
+  async findAllBoard(): Promise<Board[]> {
     try {
       return await this.boardRepository.find();
     } catch (err) {
@@ -25,12 +26,20 @@ export class BoardRepository {
     }
   }
 
-  async findBoardByUserId(userId: number) {
+  async findBoardByUserId(userId: number): Promise<Board[]> {
     try {
       return await this.boardRepository.find({ where: { userId } });
     } catch (error) {
       throw new HttpException('SqlError', HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async updateBoard(
+    updateBoardData: UpdateBoardDto,
+    userId: number,
+  ): Promise<UpdateResult> {
+    const id: number = updateBoardData.id;
+    return await this.boardRepository.update({ id, userId }, updateBoardData);
   }
 
   async findOneBoard(boardId: number): Promise<Board> {
@@ -45,7 +54,7 @@ export class BoardRepository {
 
   async removeBoard(boardId: number, userId: number): Promise<DeleteResult> {
     try {
-      return await this.boardRepository.delete({ id: boardId, userId: userId });
+      return await this.boardRepository.delete({ id: boardId, userId });
     } catch (error) {
       throw new HttpException('SqlError', HttpStatus.BAD_REQUEST);
     }
