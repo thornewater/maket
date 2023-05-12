@@ -13,6 +13,7 @@ import { User } from 'src/user/entities/user.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [User, Board],
+      logging: true,
     }),
   ],
 })
