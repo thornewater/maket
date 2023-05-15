@@ -3,6 +3,7 @@ import { BoardRepository } from '../repository/board.repository';
 import { CreateBoardDto } from '../dtos/create.board.dto';
 import { Board } from '../entities/board.entity';
 import { UpdateBoardDto } from '../dtos/update.board.dto';
+import { get } from 'http';
 
 @Injectable()
 export class BoardService {
@@ -29,11 +30,12 @@ export class BoardService {
     updateBoardData: UpdateBoardDto,
     userId: number,
   ): Promise<void> {
-    const checkBoardId = await this.boardRepository.findOneBoard(
+    const getOneBoard = await this.boardRepository.findOneBoard(
       updateBoardData.id,
     );
-    if (!checkBoardId) {
-      throw new HttpException('Board not valid', HttpStatus.FORBIDDEN);
+
+    if (getOneBoard.userId != userId) {
+      throw new HttpException('userId is not match', HttpStatus.FORBIDDEN);
     }
 
     const result = await this.boardRepository.updateBoard(
