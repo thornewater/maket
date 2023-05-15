@@ -3,7 +3,7 @@ import { BoardRepository } from '../repository/board.repository';
 import { CreateBoardDto } from '../dtos/create.board.dto';
 import { Board } from '../entities/board.entity';
 import { UpdateBoardDto } from '../dtos/update.board.dto';
-import { get } from 'http';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class BoardService {
@@ -71,4 +71,10 @@ export class BoardService {
       throw new HttpException('Fail to Remove', HttpStatus.FORBIDDEN);
     }
   }
+
+  //스케줄러 샘플용
+  // @Cron(CronExpression.EVERY_5_SECONDS)
+  // sampleSchedule() {
+  //   console.log('매초?');
+  // }
 }

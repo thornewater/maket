@@ -29,6 +29,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         break;
 
       default:
+        status = HttpStatus.INTERNAL_SERVER_ERROR;
         message = exception['response']['message'];
     }
 
