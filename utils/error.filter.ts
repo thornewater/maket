@@ -14,7 +14,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    let status: number;
+    let status: number = exception.getStatus();
     let message: string | string[];
 
     switch (exception.constructor) {
@@ -29,7 +29,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         break;
 
       default:
-        status = HttpStatus.INTERNAL_SERVER_ERROR;
         message = exception['response']['message'];
     }
 
