@@ -23,4 +23,26 @@ export class UserService {
 
     await this.userRepository.createUser(userData);
   }
+
+  async validatePassword(userData: SignUpAndInUserDto) {
+    const userInfoByName: User | undefined =
+      await this.userRepository.getUserInfoByName(userData.name);
+    if (!userInfoByName) {
+      throw new HttpException(
+        '아이디가 올바르지않습니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const pwCheck = await bcrypt.compare(
+      userData.password,
+      userInfoByName.password,
+    );
+
+    if (!pwCheck) {
+      throw new HttpException(
+        '올바른 비밀번호가 아닙니다.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

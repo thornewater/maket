@@ -12,4 +12,10 @@ export class UserController {
 
     return { message: 'create Success' };
   }
+  @Post('pwcheck')
+  async validatePassword(@Body() userData: SignUpAndInUserDto) {
+    await this.userService.validatePassword(userData);
+
+    return '패스워드 체크 성공';
+  }
 }
